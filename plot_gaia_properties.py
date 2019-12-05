@@ -38,7 +38,7 @@ df = vaex.from_arrays(source_id=gaia["sources/source_id"][:][finite],
                       dec_parallax_corr=dec_parallax_corr[finite])
 
 
-colormap = "viridis"
+colormap = "coolwarm"
 
 
 ra_parallax_corr = 0.53965366
