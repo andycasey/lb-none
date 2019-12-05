@@ -5,6 +5,9 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from astropy.table import Table
+from astropy import units as u
+from astropy.time import Time
 
 #from mpl_utils import mpl_style
 #plt.style.use(mpl_style)
@@ -14,6 +17,27 @@ import h5py as h5
 
 
 from matplotlib.ticker import MaxNLocator
+
+
+
+
+
+
+gost = Table.read("gost_21.3.1_652094_2019-12-05-02-26-18.csv")
+t = Time(gost["ObservationTimeAtGaia[UTC]"])
+
+
+
+t0 = Time('2018-04-07')
+
+period = 78.9 * u.day
+phi = 2 * np.pi * ((t - t0).to(u.day) % period) / period
+
+fig, ax = plt.subplots()
+ax.hist(phi, bins=4, facecolor="k")
+#ax.yaxis.set_major_locator(MaxNLocator(3))
+#ax.set_ylabel(r"$\textrm{count}$")
+#ax.set_xlabel(r"$\phi$")
 
 
 
@@ -99,7 +123,7 @@ ax_inset = fig_ra.add_axes([space*2, 1 - space - h, w, h])
 scat = ax_inset.scatter(gaia["sources/l"][:][mask],
                       gaia["sources/b"][:][mask],
                       c=gaia["sources/ra_parallax_corr"][:][mask],
-                      s=1, cmap=colormap, vmin=vmin, vmax=vmax)
+                      s=1, cmap=colormap, vmin=vmin, vmax=vmax, rasterized=True)
 
 ax_inset.scatter([l], [b], c=[ra_parallax_corr], s=30, edgecolor="k", lw=1, vmin=-1, vmax=1, cmap=colormap)
 
@@ -140,7 +164,7 @@ ax_inset = fig_dec.add_axes([space*2, 1 - space - h, w, h])
 scat = ax_inset.scatter(gaia["sources/l"][:][mask],
                       gaia["sources/b"][:][mask],
                       c=gaia["sources/dec_parallax_corr"][:][mask],
-                      s=1, cmap=colormap, vmin=vmin, vmax=vmax)
+                      s=1, cmap=colormap, vmin=vmin, vmax=vmax, rasterized=True)
 
 ax_inset.scatter([l], [b], c=[dec_parallax_corr], s=30, edgecolor="k", lw=1, vmin=-1, vmax=1, cmap=colormap)
 
